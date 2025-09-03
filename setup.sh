@@ -31,6 +31,23 @@ if [ ! -f .env ]; then
     echo "Please edit .env file with your API keys and configuration"
 fi
 
+# Database setup
+echo "🗄️ Setting up database..."
+if [ -f davgpt.db ]; then
+    echo "Database already exists."
+    read -p "Do you want to create a new database? This will delete existing data. (y/N): " choice
+    if [[ "$choice" =~ ^[Yy]$ ]]; then
+        rm davgpt.db
+        echo "Creating new database..."
+        python -c "from app import app, db; app.app_context().push(); db.create_all(); print('✅ New database created')"
+    else
+        echo "Using existing database."
+    fi
+else
+    echo "Creating new database..."
+    python -c "from app import app, db; app.app_context().push(); db.create_all(); print('✅ Database created')"
+fi
+
 # Run initial scraping
 echo "🕷️ Running initial data scraping..."
 python -c "from scraper import DAVScraper; scraper = DAVScraper(); scraper.scrape_all()"
