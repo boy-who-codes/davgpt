@@ -1,0 +1,199 @@
+Got it bro ✅ here’s the **final polished SRS** for **DAVGPT**, including the floating bubble feature and everything you’d need to present to your school/ATL team.
+
+---
+
+# 📄 Software Requirements Specification (SRS)
+
+**Project:** DAVGPT – AI Chatbot for DAV Koyla Nagar
+**Prepared By:** Rahul Sinha
+**Date:** 31 Aug 2025
+**Version:** 1.1 (Final)
+
+---
+
+## 1. Introduction
+
+### 1.1 Purpose
+
+DAVGPT is a **smart AI-powered assistant** for the official school website [davkoylanagar.com](https://davkoylanagar.com). It will provide instant, natural language responses to student, parent, and visitor queries regarding admissions, school timings, events, and staff.
+
+The chatbot will:
+
+* Serve as a **24/7 virtual assistant**.
+* Reduce workload of school staff.
+* Enhance digital presence of the school.
+
+---
+
+### 1.2 Scope
+
+* Deployed using **Langflow Cloud** with **DataStax Astra DB** as the vector database.
+* Embedded in the school website as:
+
+  * Inline iframe widget
+  * **Floating chat bubble** (can be reused in other DAV school websites).
+* Uses **Retrieval-Augmented Generation (RAG)** to answer only school-related questions.
+* Core LLM: **GPT-3.5 / Phi models**.
+
+---
+
+### 1.3 Definitions, Acronyms
+
+* **RAG** – Retrieval Augmented Generation
+* **LLM** – Large Language Model
+* **Langflow** – Drag-and-drop pipeline builder for LLM apps
+* **Astra DB** – Cloud-native vector database (by DataStax)
+* **DAVGPT** – School’s GPT-powered chatbot
+
+---
+
+## 2. Overall Description
+
+### 2.1 Product Perspective
+
+* Cloud-native solution (Langflow + Astra DB).
+* No on-premise server required.
+* Can be embedded into multiple sites via iframe or bubble.
+
+---
+
+### 2.2 Product Functions
+
+* ✅ Answer FAQs from school website content.
+* ✅ Retrieve relevant chunks from Astra DB.
+* ✅ Provide fallback: “I don’t know” if outside scope.
+* ✅ Allow embedding on **school site** or other partner sites.
+* ✅ Provide an **admin process** to refresh content when website updates.
+
+---
+
+### 2.3 Users & Characteristics
+
+* **Parents:** Ask about admissions, fees, facilities.
+* **Students:** Ask about schedules, events, exams.
+* **Visitors:** Ask about DAV Koyla Nagar generally.
+* **Admins:** Maintain, update, and retrain chatbot.
+
+---
+
+### 2.4 Constraints
+
+* Must run on **Langflow Cloud** only.
+* Astra DB Cloud must hold embeddings.
+* Requires stable internet connection.
+
+---
+
+### 2.5 Assumptions
+
+* School website content is updated regularly.
+* Users will primarily query in English.
+
+---
+
+## 3. Specific Requirements
+
+### 3.1 Functional Requirements
+
+| ID       | Requirement                                                                                      |
+| -------- | ------------------------------------------------------------------------------------------------ |
+| FR-1     | Retrieve school content from Astra DB using embeddings.                                          |
+| FR-2     | Accept natural language queries from users.                                                      |
+| FR-3     | Answer only school-related questions.                                                            |
+| FR-4     | Provide fallback response if context unavailable.                                                |
+| FR-5     | Admin can refresh/update Astra DB content.                                                       |
+| FR-6     | Chatbot embeddable via iframe widget in school website.                                          |
+| **FR-7** | Provide **floating chat bubble embed script** for use in external websites (multi-site support). |
+
+---
+
+### 3.2 Non-Functional Requirements
+
+| Category            | Requirement                                            |
+| ------------------- | ------------------------------------------------------ |
+| **Performance**     | Response time < 3s for typical queries.                |
+| **Availability**    | 99% uptime (cloud-based).                              |
+| **Scalability**     | Support 100+ concurrent users.                         |
+| **Security**        | Protect API keys; no sensitive student data stored.    |
+| **Maintainability** | Easy retraining when content updates.                  |
+| **Usability**       | Mobile-friendly UI, simple chat bubble, user-friendly. |
+
+---
+
+## 4. System Design
+
+### 4.1 High-Level Architecture
+
+```
+User → Chat Bubble/Widget → Langflow Cloud → RAG Chain
+           ↓                          ↓
+     Embedded in site         Astra DB (Vector Store)
+                                    ↓
+                          School Content (scraped)
+```
+
+### 4.2 Chat Bubble UI (Example Script)
+
+```html
+<script>
+(function(){
+  var bubble = document.createElement("div");
+  bubble.style.position = "fixed";
+  bubble.style.bottom = "20px";
+  bubble.style.right = "20px";
+  bubble.style.width = "60px";
+  bubble.style.height = "60px";
+  bubble.style.borderRadius = "50%";
+  bubble.style.background = "#004aad";
+  bubble.style.color = "white";
+  bubble.style.fontSize = "28px";
+  bubble.style.display = "flex";
+  bubble.style.alignItems = "center";
+  bubble.style.justifyContent = "center";
+  bubble.style.cursor = "pointer";
+  bubble.innerHTML = "💬";
+  document.body.appendChild(bubble);
+
+  bubble.onclick = function(){
+    var iframe = document.createElement("iframe");
+    iframe.src = "https://cloud.langflow.org/public/davgpt"; // replace with your link
+    iframe.style.position = "fixed";
+    iframe.style.bottom = "90px";
+    iframe.style.right = "20px";
+    iframe.style.width = "400px";
+    iframe.style.height = "500px";
+    iframe.style.border = "1px solid #ccc";
+    iframe.style.borderRadius = "12px";
+    iframe.style.zIndex = "9999";
+    document.body.appendChild(iframe);
+  }
+})();
+</script>
+```
+
+---
+
+## 5. Future Enhancements
+
+* Voice-based interaction.
+* Multilingual support (Hindi, Bengali).
+* WhatsApp chatbot for parents.
+* Integration with student portal/ERP.
+* Analytics dashboard for admin usage insights.
+
+---
+
+## 6. Approval
+
+Prepared by: Rahul Sinha
+Reviewed by: ATL/DAV Team
+Approved by: \[School Authority]
+
+---
+
+✅ This is the **final SRS** — polished, with the **bubble embed** feature and a technical script ready for deployment.
+
+---
+
+Do you want me to also create a **system diagram (visual UML/architecture flow)** so you can show it nicely in ATL presentations?
+

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - D.A.V GPT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">📚 Documentation</a> > <span>API Reference</span>
+        </nav>
+        
+        <div class="content">
+            <h1>📚 API Reference</h1>
+            <p class="subtitle">Complete API documentation for D.A.V GPT endpoints</p>
+            
+            <div class="section">
+                <h2>🔗 Base URL</h2>
+                <div class="api-endpoint">
+                    <strong>Development:</strong> http://localhost:5000<br>
+                    <strong>Production:</strong> https://your-domain.vercel.app
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>💬 Chat Endpoints</h2>
+                
+                <h3>Send Chat Message</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /chat
+                </div>
+                
+                <p>Send a message to the AI assistant and receive a response.</p>
+                
+                <h4>Request Body</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "message": "What is the admission process?"
+}</code></pre>
+                </div>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "response": "The admission process for D.A.V Koyla Nagar...",
+  "language": "en",
+  "needs_human": false
+}</code></pre>
+                </div>
+                
+                <h3>Get Chat History</h3>
+                <div class="api-endpoint">
+                    <span class="method get">GET</span> /get_chat_history
+                </div>
+                
+                <p>Retrieve the current session's chat history.</p>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "history": [
+    {
+      "user": "What are the school timings?",
+      "bot": "The school timings are...",
+      "timestamp": "2024-01-15T10:30:00",
+      "language": "en"
+    }
+  ]
+}</code></pre>
+                </div>
+                
+                <h3>Clear Chat History</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /clear_chat
+                </div>
+                
+                <p>Clear the current session's chat history.</p>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "success",
+  "message": "Chat history cleared"
+}</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📎 File Upload Endpoints</h2>
+                
+                <h3>Upload File</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /upload_file
+                </div>
+                
+                <p>Upload and process PDF, DOCX, or TXT files for chat integration.</p>
+                
+                <h4>Request (Multipart Form Data)</h4>
+                <div class="code-block">
+                    <pre><code>Content-Type: multipart/form-data
+
+file: [binary file data]</code></pre>
+                </div>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "success",
+  "message": "File uploaded and processed successfully!",
+  "content_preview": "Document content preview..."
+}</code></pre>
+                </div>
+                
+                <h4>Supported File Types</h4>
+                <ul>
+                    <li><strong>PDF:</strong> .pdf files (max 50MB)</li>
+                    <li><strong>DOCX:</strong> Microsoft Word documents</li>
+                    <li><strong>TXT:</strong> Plain text files</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>📅 Calendar Endpoints</h2>
+                
+                <h3>Get Events</h3>
+                <div class="api-endpoint">
+                    <span class="method get">GET</span> /admin/events
+                </div>
+                
+                <p>Retrieve events for a specific month and year.</p>
+                
+                <h4>Query Parameters</h4>
+                <div class="code-block">
+                    <pre><code>month: integer (1-12, optional)
+year: integer (optional, defaults to current year)</code></pre>
+                </div>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "success",
+  "events": [
+    {
+      "id": 1,
+      "title": "Republic Day",
+      "description": "National Holiday",
+      "date": "2024-01-26",
+      "category": "holiday",
+      "tags": ["public", "national"],
+      "is_public_holiday": true
+    }
+  ]
+}</code></pre>
+                </div>
+                
+                <h3>Add Event</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /admin/add_event
+                </div>
+                
+                <p>Add a new event to the calendar.</p>
+                
+                <h4>Request Body</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "title": "Annual Sports Day",
+  "description": "School sports competition",
+  "date": "2024-03-15",
+  "category": "celebration",
+  "tags": "sports,annual,competition"
+}</code></pre>
+                </div>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "success",
+  "message": "Event added successfully"
+}</code></pre>
+                </div>
+                
+                <h3>Fetch Public Holidays</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /admin/fetch_holidays
+                </div>
+                
+                <p>Automatically fetch and add Indian public holidays for a year.</p>
+                
+                <h4>Request Body</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "year": 2024
+}</code></pre>
+                </div>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "success",
+  "message": "Added 5 public holidays for 2024"
+}</code></pre>
+                </div>
+                
+                <h3>Get Holidays for Chat</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /get_holidays
+                </div>
+                
+                <p>Get holidays for chat system queries.</p>
+                
+                <h4>Request Body</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "month": 12,
+  "year": 2024
+}</code></pre>
+                </div>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "success",
+  "holidays": [
+    {
+      "title": "Christmas Day",
+      "date": "December 25, 2024",
+      "description": "National Holiday"
+    }
+  ]
+}</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>👥 Lead Management Endpoints</h2>
+                
+                <h3>Generate Lead</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /generate_lead
+                </div>
+                
+                <p>Create a new lead from user contact request.</p>
+                
+                <h4>Request Body</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "name": "John Doe",
+  "contact": "9876543210",
+  "query": "I want to know about admission process"
+}</code></pre>
+                </div>
+                
+                <h4>Response</h4>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "success",
+  "message": "Thank you! We'll contact you soon.",
+  "message_hi": "धन्यवाद! हम जल्द ही आपसे संपर्क करेंगे।"
+}</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🛠️ Admin Authentication</h2>
+                
+                <h3>Admin Login</h3>
+                <div class="api-endpoint">
+                    <span class="method post">POST</span> /admin/login
+                </div>
+                
+                <p>Authenticate admin user.</p>
+                
+                <h4>Request Body (Form Data)</h4>
+                <div class="code-block">
+                    <pre><code>username: admin
+password: dav2024</code></pre>
+                </div>
+                
+                <h3>Admin Logout</h3>
+                <div class="api-endpoint">
+                    <span class="method get">GET</span> /admin/logout
+                </div>
+                
+                <p>Logout current admin session.</p>
+            </div>
+            
+            <div class="section">
+                <h2>📊 Status Codes</h2>
+                
+                <div class="code-block">
+                    <h4>HTTP Status Codes:</h4>
+                    <ul>
+                        <li><strong>200 OK:</strong> Request successful</li>
+                        <li><strong>400 Bad Request:</strong> Invalid request data</li>
+                        <li><strong>401 Unauthorized:</strong> Authentication required</li>
+                        <li><strong>403 Forbidden:</strong> Access denied</li>
+                        <li><strong>404 Not Found:</strong> Endpoint not found</li>
+                        <li><strong>413 Payload Too Large:</strong> File too large</li>
+                        <li><strong>500 Internal Server Error:</strong> Server error</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🔧 Error Handling</h2>
+                
+                <h3>Standard Error Response</h3>
+                <div class="code-block">
+                    <pre><code>{
+  "status": "error",
+  "message": "Description of the error"
+}</code></pre>
+                </div>
+                
+                <h3>Common Errors</h3>
+                
+                <div class="trouble-item">
+                    <h4>❌ File Upload Errors</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "error",
+  "message": "Only PDF, DOCX, and TXT files are supported"
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="trouble-item">
+                    <h4>❌ Authentication Errors</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "error",
+  "message": "Unauthorized"
+}</code></pre>
+                    </div>
+                </div>
+                
+                <div class="trouble-item">
+                    <h4>❌ Validation Errors</h4>
+                    <div class="code-block">
+                        <pre><code>{
+  "status": "error",
+  "message": "Title and date are required"
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🔗 Integration Examples</h2>
+                
+                <h3>JavaScript/Fetch</h3>
+                <div class="code-block">
+                    <pre><code>// Send chat message
+async function sendMessage(message) {
+  const response = await fetch('/chat', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message })
+  });
+  
+  const data = await response.json();
+  return data;
+}
+
+// Upload file
+async function uploadFile(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  
+  const response = await fetch('/upload_file', {
+    method: 'POST',
+    body: formData
+  });
+  
+  const data = await response.json();
+  return data;
+}</code></pre>
+                </div>
+                
+                <h3>Python/Requests</h3>
+                <div class="code-block">
+                    <pre><code>import requests
+
+# Send chat message
+def send_message(message):
+    response = requests.post('http://localhost:5000/chat', 
+                           json={'message': message})
+    return response.json()
+
+# Upload file
+def upload_file(file_path):
+    with open(file_path, 'rb') as f:
+        files = {'file': f}
+        response = requests.post('http://localhost:5000/upload_file', 
+                               files=files)
+    return response.json()</code></pre>
+                </div>
+                
+                <h3>cURL Examples</h3>
+                <div class="code-block">
+                    <pre><code># Send chat message
+curl -X POST http://localhost:5000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What are the school timings?"}'
+
+# Upload file
+curl -X POST http://localhost:5000/upload_file \
+  -F "file=@document.pdf"
+
+# Get events
+curl -X GET "http://localhost:5000/admin/events?month=12&year=2024"</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>⚡ Rate Limits</h2>
+                
+                <div class="info-box">
+                    <h4>🚦 Current Limits</h4>
+                    <ul>
+                        <li><strong>Chat Messages:</strong> 60 requests per minute</li>
+                        <li><strong>File Uploads:</strong> 10 files per hour</li>
+                        <li><strong>Admin Actions:</strong> 100 requests per minute</li>
+                        <li><strong>File Size:</strong> Maximum 50MB per file</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h2>🎯 Next Steps</h2>
+                <div class="next-grid">
+                    <a href="deployment.html" class="next-card">
+                        <span class="icon">🌐</span>
+                        <h4>Deployment Guide</h4>
+                        <p>Deploy your API to production</p>
+                    </a>
+                    <a href="troubleshooting.html" class="next-card">
+                        <span class="icon">🔧</span>
+                        <h4>Troubleshooting</h4>
+                        <p>Common issues and solutions</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

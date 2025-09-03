@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ],
+  "env": {
+    "WEBSITE_URL": "@website_url",
+    "GEMINI_API_KEY": "@gemini_api_key",
+    "MAIL_USERNAME": "@mail_username",
+    "MAIL_PASSWORD": "@mail_password",
+    "DATABASE_URL": "@database_url"
+  },
+  "functions": {
+    "app.py": {
+      "maxDuration": 30
+    }
+  }
+}

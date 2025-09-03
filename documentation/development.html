@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Development Guide - D.A.V GPT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="index.html">📚 Documentation</a> > <span>Development</span>
+        </nav>
+        
+        <div class="content">
+            <h1>⚙️ Development Guide</h1>
+            <p class="subtitle">Advanced customization, database management, and code structure</p>
+            
+            <div class="section">
+                <h2>📁 Project Structure</h2>
+                <div class="code-block">
+                    <pre><code>davgpt/
+├── app.py              # Main Flask application
+├── models.py           # Database models (SQLAlchemy)
+├── simple_rag.py       # RAG system with Gemini AI
+├── scraper.py          # Website content scraper
+├── wsgi.py            # Production WSGI entry point
+├── requirements.txt   # Python dependencies
+├── .env               # Environment variables
+├── .env.example       # Environment template
+├── davgpt.db          # SQLite database file
+├── knowledge_base.json # Scraped content storage
+├── templates/         # HTML templates
+│   ├── chat.html      # Main chat interface
+│   ├── admin_*.html   # Admin panel templates
+├── uploads/           # Temporary file uploads
+├── documentation/     # This documentation
+├── setup.sh/bat       # Setup scripts
+├── run.sh/bat         # Development run scripts
+├── run-production.sh  # Production run script
+└── deploy-vercel.sh   # Vercel deployment script</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🗄️ Database Management</h2>
+                
+                <h3>Database Models</h3>
+                <p>The system uses SQLAlchemy with the following models:</p>
+                
+                <div class="code-block">
+                    <pre><code># models.py
+class Conversation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_message = db.Column(db.Text, nullable=False)
+    bot_response = db.Column(db.Text, nullable=False)
+    language = db.Column(db.String(10), default='en')
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    session_id = db.Column(db.String(100))
+
+class UploadedFile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(255), nullable=False)
+    original_name = db.Column(db.String(255), nullable=False)
+    file_type = db.Column(db.String(10), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    upload_date = db.Column(db.DateTime, default=datetime.utcnow)
+    session_id = db.Column(db.String(100))
+
+class Event(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.Text)
+    date = db.Column(db.Date, nullable=False)
+    category = db.Column(db.String(50), default='custom')
+    tags = db.Column(db.String(255))
+    created_by = db.Column(db.String(100))
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    is_public_holiday = db.Column(db.Boolean, default=False)
+
+class Lead(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    contact = db.Column(db.String(50), nullable=False)
+    query = db.Column(db.Text)
+    status = db.Column(db.String(20), default='new')
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)</code></pre>
+                </div>
+                
+                <h3>Database Operations</h3>
+                
+                <div class="command-grid">
+                    <div class="command-card">
+                        <h4>Create New Database</h4>
+                        <code>python -c "from app import app, db; app.app_context().push(); db.create_all()"</code>
+                    </div>
+                    <div class="command-card">
+                        <h4>Reset Database</h4>
+                        <code>rm davgpt.db && python app.py</code>
+                    </div>
+                    <div class="command-card">
+                        <h4>Backup Database</h4>
+                        <code>cp davgpt.db davgpt_backup.db</code>
+                    </div>
+                    <div class="command-card">
+                        <h4>View Database</h4>
+                        <code>sqlite3 davgpt.db ".tables"</code>
+                    </div>
+                </div>
+                
+                <h3>Adding New Models</h3>
+                <div class="code-block">
+                    <pre><code># 1. Add new model to models.py
+class NewModel(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+# 2. Import in app.py
+from models import db, NewModel
+
+# 3. Create tables
+python -c "from app import app, db; app.app_context().push(); db.create_all()"</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🤖 AI System Architecture</h2>
+                
+                <h3>RAG (Retrieval-Augmented Generation)</h3>
+                <p>The system uses a custom RAG implementation in <code>simple_rag.py</code>:</p>
+                
+                <div class="code-block">
+                    <pre><code>class SimpleRAG:
+    def __init__(self):
+        self.knowledge_base = []
+        self.setup_gemini()
+    
+    def search(self, query, top_k=3):
+        # Simple keyword-based search
+        # Returns most relevant content
+    
+    def generate_response(self, query):
+        # 1. Check for holiday queries
+        # 2. Search knowledge base
+        # 3. Generate response with Gemini
+        # 4. Return formatted response</code></pre>
+                </div>
+                
+                <h3>Customizing AI Responses</h3>
+                <div class="code-block">
+                    <pre><code># Modify prompts in simple_rag.py
+gemini_prompt = f"""You are D.A.V GPT, an AI assistant for D.A.V Koyla Nagar school.
+
+User Question: {query}
+School Information: {content}
+
+Provide a helpful answer focusing on D.A.V Koyla Nagar school:"""</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🕷️ Web Scraping System</h2>
+                
+                <h3>Scraper Configuration</h3>
+                <div class="code-block">
+                    <pre><code># scraper.py - Key methods
+class DAVScraper:
+    def scrape_page_comprehensive(self, url, category="general"):
+        # Extract content from single page
+    
+    def scrape_all_comprehensive(self):
+        # Scrape entire website
+        # Follow internal links
+        # Remove duplicates
+        # Save to knowledge_base.json</code></pre>
+                </div>
+                
+                <h3>Manual Content Update</h3>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <h4>Re-scrape Website</h4>
+                        <code>python -c "from scraper import DAVScraper; DAVScraper().scrape_all()"</code>
+                    </div>
+                    <div class="command-card">
+                        <h4>Update Knowledge Base</h4>
+                        <code>python -c "from simple_rag import SimpleRAG; SimpleRAG().load_data()"</code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🎨 Frontend Customization</h2>
+                
+                <h3>UI Theme Modification</h3>
+                <p>The UI uses Apple-style design with CSS variables for easy customization:</p>
+                
+                <div class="code-block">
+                    <pre><code>/* In templates/chat.html - Modify these colors */
+:root {
+    --primary-color: #007AFF;
+    --secondary-color: #5856D6;
+    --background-dark: #1c1c1e;
+    --text-color: #fff;
+    --blur-amount: 20px;
+}</code></pre>
+                </div>
+                
+                <h3>Adding New Features</h3>
+                <div class="code-block">
+                    <pre><code># 1. Add route in app.py
+@app.route('/new_feature', methods=['GET', 'POST'])
+def new_feature():
+    # Your logic here
+    return jsonify({'status': 'success'})
+
+# 2. Add frontend JavaScript
+async function callNewFeature() {
+    const response = await fetch('/new_feature', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({data: 'value'})
+    });
+    return response.json();
+}</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🔧 Environment Configuration</h2>
+                
+                <h3>Development vs Production</h3>
+                <div class="code-block">
+                    <pre><code># Development (.env)
+DEBUG=True
+DATABASE_URL=sqlite:///davgpt.db
+FLASK_ENV=development
+
+# Production (.env.production)
+DEBUG=False
+DATABASE_URL=postgresql://user:pass@host/db
+FLASK_ENV=production</code></pre>
+                </div>
+                
+                <h3>Adding New Environment Variables</h3>
+                <div class="code-block">
+                    <pre><code># 1. Add to .env
+NEW_FEATURE_ENABLED=true
+
+# 2. Use in app.py
+import os
+new_feature = os.getenv('NEW_FEATURE_ENABLED', 'false').lower() == 'true'</code></pre>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🧪 Testing & Debugging</h2>
+                
+                <h3>Debug Mode</h3>
+                <div class="code-block">
+                    <pre><code># Enable debug mode
+export FLASK_DEBUG=1
+python app.py
+
+# Or modify app.py
+app.run(debug=True, host='0.0.0.0', port=5000)</code></pre>
+                </div>
+                
+                <h3>Logging</h3>
+                <div class="code-block">
+                    <pre><code># Add logging to your code
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
+# In your functions
+logging.info(f"Processing query: {query}")
+logging.error(f"Error occurred: {error}")</code></pre>
+                </div>
+                
+                <h3>Common Debug Commands</h3>
+                <div class="command-grid">
+                    <div class="command-card">
+                        <h4>Check Database</h4>
+                        <code>sqlite3 davgpt.db "SELECT * FROM conversation LIMIT 5;"</code>
+                    </div>
+                    <div class="command-card">
+                        <h4>Test API Endpoint</h4>
+                        <code>curl -X POST http://localhost:5000/chat -H "Content-Type: application/json" -d '{"message":"test"}'</code>
+                    </div>
+                    <div class="command-card">
+                        <h4>View Logs</h4>
+                        <code>tail -f app.log</code>
+                    </div>
+                    <div class="command-card">
+                        <h4>Check Dependencies</h4>
+                        <code>pip list | grep -i flask</code>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📦 Deployment Preparation</h2>
+                
+                <h3>Production Checklist</h3>
+                <div class="checklist">
+                    <div class="check-item">
+                        <input type="checkbox" id="prod1">
+                        <label for="prod1">Environment variables configured</label>
+                    </div>
+                    <div class="check-item">
+                        <input type="checkbox" id="prod2">
+                        <label for="prod2">Debug mode disabled</label>
+                    </div>
+                    <div class="check-item">
+                        <input type="checkbox" id="prod3">
+                        <label for="prod3">Database migrated</label>
+                    </div>
+                    <div class="check-item">
+                        <input type="checkbox" id="prod4">
+                        <label for="prod4">Static files optimized</label>
+                    </div>
+                    <div class="check-item">
+                        <input type="checkbox" id="prod5">
+                        <label for="prod5">Security headers configured</label>
+                    </div>
+                </div>
+                
+                <h3>Performance Optimization</h3>
+                <div class="code-block">
+                    <pre><code># Use production WSGI server
+gunicorn --bind 0.0.0.0:5000 --workers 4 --timeout 120 wsgi:app
+
+# Enable gzip compression
+from flask import Flask
+from flask_compress import Compress
+
+app = Flask(__name__)
+Compress(app)</code></pre>
+                </div>
+            </div>
+            
+            <div class="next-steps">
+                <h2>🎯 Next Steps</h2>
+                <div class="next-grid">
+                    <a href="deployment.html" class="next-card">
+                        <span class="icon">🌐</span>
+                        <h4>Deployment Guide</h4>
+                        <p>Deploy to production servers</p>
+                    </a>
+                    <a href="api-reference.html" class="next-card">
+                        <span class="icon">📚</span>
+                        <h4>API Reference</h4>
+                        <p>Complete API documentation</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

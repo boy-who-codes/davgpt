@@ -1,0 +1,20 @@
+🚀 QUICK DEPLOYMENT COMMANDS
+
+1. Navigate to project:
+   cd "/mnt/d/0000Paid Projects/davgpt"
+
+2. Deploy to Vercel:
+   vercel --prod
+
+3. Set environment variables in Vercel Dashboard:
+   WEBSITE_URL=http://davkoylanagar.com/
+   GEMINI_API_KEY=your_gemini_api_key_here
+   MAIL_USERNAME=your-email@gmail.com
+   MAIL_PASSWORD=your-app-password
+   DATABASE_URL=sqlite:///tmp/davgpt.db
+
+4. Test deployment:
+   https://your-project.vercel.app
+   https://your-project.vercel.app/admin
+
+✅ Your D.A.V GPT will be live!

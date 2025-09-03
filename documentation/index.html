@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D.A.V GPT Documentation</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .nav-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .nav-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        
+        .nav-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .nav-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .nav-card p {
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .features-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .features-section h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .feature-item {
+            padding: 1.5rem;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-item h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .feature-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+        
+        .tech-stack {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .tech-stack h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: #667eea;
+            text-align: center;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .tech-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5rem; }
+            .header p { font-size: 1.1rem; }
+            .nav-grid { grid-template-columns: 1fr; }
+            .container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 D.A.V GPT</h1>
+            <p>Complete Documentation & Developer Guide</p>
+        </div>
+        
+        <div class="nav-grid">
+            <a href="getting-started.html" class="nav-card">
+                <span class="icon">🚀</span>
+                <h3>Getting Started</h3>
+                <p>Quick setup guide, installation, and first run. Perfect for beginners.</p>
+            </a>
+            
+            <a href="features.html" class="nav-card">
+                <span class="icon">✨</span>
+                <h3>Features Guide</h3>
+                <p>Comprehensive overview of all features, chat system, and admin panel.</p>
+            </a>
+            
+            <a href="development.html" class="nav-card">
+                <span class="icon">⚙️</span>
+                <h3>Development</h3>
+                <p>Code structure, database migrations, and advanced customization.</p>
+            </a>
+            
+            <a href="deployment.html" class="nav-card">
+                <span class="icon">🌐</span>
+                <h3>Deployment</h3>
+                <p>Production deployment, Vercel hosting, and environment configuration.</p>
+            </a>
+            
+            <a href="api-reference.html" class="nav-card">
+                <span class="icon">📚</span>
+                <h3>API Reference</h3>
+                <p>Complete API documentation, endpoints, and integration examples.</p>
+            </a>
+            
+            <a href="troubleshooting.html" class="nav-card">
+                <span class="icon">🔧</span>
+                <h3>Troubleshooting</h3>
+                <p>Common issues, solutions, and debugging techniques.</p>
+            </a>
+        </div>
+        
+        <div class="features-section">
+            <h2>🌟 Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>🤖 AI-Powered Chat</h4>
+                    <p>Google Gemini integration with intelligent responses and context awareness</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📎 File Processing</h4>
+                    <p>Upload and chat with PDF, DOCX, and TXT documents</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📅 Event Calendar</h4>
+                    <p>Interactive calendar with holiday management and event scheduling</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎨 Apple-Style UI</h4>
+                    <p>Modern, responsive design with blur effects and smooth animations</p>
+                </div>
+                <div class="feature-item">
+                    <h4>💾 Session Persistence</h4>
+                    <p>48-hour chat history that survives browser restarts</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🌐 Multi-language</h4>
+                    <p>English and Hindi support with automatic translation</p>
+                </div>
+                <div class="feature-item">
+                    <h4>👥 Admin Panel</h4>
+                    <p>Complete management system for content, events, and leads</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🕷️ Smart Scraping</h4>
+                    <p>Automatic website content extraction and knowledge base building</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tech-stack">
+            <h2>🔧 Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-item">Flask</div>
+                <div class="tech-item">Google Gemini AI</div>
+                <div class="tech-item">SQLAlchemy</div>
+                <div class="tech-item">SQLite</div>
+                <div class="tech-item">Beautiful Soup</div>
+                <div class="tech-item">Vanilla JavaScript</div>
+                <div class="tech-item">Modern CSS</div>
+                <div class="tech-item">Vercel</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Built with ❤️ for D.A.V Koyla Nagar School</p>
+        </div>
+    </div>
+</body>
+</html>
